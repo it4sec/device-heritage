@@ -6,8 +6,6 @@ __pycache__/
 .venv/
 .env/
 
-# Poetry
-poetry.lock
 
 # Secrets
 .env
@@ -20,5 +18,5 @@ poetry.lock
 *.txt
 *.log
 
-# Data
-data/
+# Scripts 
+*.sh
