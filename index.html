@@ -1,29 +1,953 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Your Company</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Digital Heritage provides insights into the origin, components, and trust posture of connected devices." />
+  <title>Digital Heritage | Insights into origin</title>
+
+  <!-- Site icon / favicon. Replace files in /assets/ with your generated icon files. -->
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="assets/favicon-32x32.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+  <style>
+    :root {
+      --bg: #08110f;
+      --bg-2: #0d1d19;
+      --panel: rgba(255, 255, 255, 0.065);
+      --panel-strong: rgba(255, 255, 255, 0.105);
+      --text: #f1f7f4;
+      --muted: #a8b8b1;
+      --muted-2: #73857e;
+      --line: rgba(255, 255, 255, 0.12);
+      --accent: #49f2bd;
+      --accent-2: #88ffd8;
+      --accent-dark: #123d34;
+      --gold: #d7b46a;
+      --danger: #ff6b6b;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 28px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(73, 242, 189, 0.18), transparent 32%),
+        radial-gradient(circle at 90% 10%, rgba(215, 180, 106, 0.12), transparent 26%),
+        linear-gradient(145deg, var(--bg), #020403 72%);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-shell {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page-shell::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, #000, transparent 80%);
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: rgba(8, 17, 15, 0.76);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 220px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background:
+        linear-gradient(145deg, rgba(73, 242, 189, 0.22), rgba(215, 180, 106, 0.16)),
+        #0c211d;
+      border: 1px solid rgba(136, 255, 216, 0.25);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 35px rgba(73, 242, 189, 0.16);
+      overflow: hidden;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 5px;
+    }
+
+    .brand-fallback {
+      font-weight: 800;
+      color: var(--accent-2);
+      letter-spacing: -0.08em;
+    }
+
+    .brand-name {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+
+    .brand-name strong {
+      letter-spacing: -0.04em;
+      font-size: 1.05rem;
+    }
+
+    .brand-name span {
+      color: var(--muted-2);
+      font-size: 0.74rem;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    nav ul {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    nav a:hover {
+      color: var(--accent-2);
+    }
+
+    .nav-cta {
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: #05100d;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      font-weight: 700;
+      box-shadow: 0 12px 32px rgba(73, 242, 189, 0.18);
+    }
+
+    .hero {
+      padding: 92px 0 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 46px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-2);
+      background: rgba(73, 242, 189, 0.08);
+      border: 1px solid rgba(73, 242, 189, 0.18);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 20px var(--accent);
+    }
+
+    h1 {
+      margin: 24px 0 18px;
+      max-width: 780px;
+      font-size: clamp(3.2rem, 8vw, 6.7rem);
+      line-height: 0.92;
+      letter-spacing: -0.08em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 5%, var(--accent-2) 45%, var(--gold) 96%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 13px 19px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-weight: 750;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(136, 255, 216, 0.42);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #04120e;
+      border: 0;
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--text);
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.045));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .device-map {
+      min-height: 470px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(73, 242, 189, 0.2), transparent 33%),
+        linear-gradient(145deg, rgba(5, 18, 15, 0.9), rgba(13, 31, 27, 0.72));
+      border: 1px solid rgba(255,255,255,0.09);
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    .device-map::before,
+    .device-map::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(136, 255, 216, 0.16);
+      border-radius: 50%;
+      inset: 70px;
+    }
+
+    .device-map::after {
+      inset: 122px;
+      border-style: dashed;
+      border-color: rgba(215, 180, 106, 0.22);
+    }
+
+    .node {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.28);
+      font-size: 1.6rem;
+    }
+
+    .node-main {
+      width: 118px;
+      height: 118px;
+      border-radius: 34px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(145deg, rgba(73, 242, 189, 0.2), rgba(215, 180, 106, 0.12));
+      border-color: rgba(136, 255, 216, 0.38);
+    }
+
+    .node-1 { left: 10%; top: 16%; }
+    .node-2 { right: 12%; top: 18%; }
+    .node-3 { left: 14%; bottom: 14%; }
+    .node-4 { right: 14%; bottom: 15%; }
+
+    .map-label {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 22px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(2, 6, 5, 0.62);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .map-label strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .signal-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 44%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(73,242,189,0), rgba(73,242,189,0.62), rgba(73,242,189,0));
+      transform-origin: left center;
+      opacity: 0.75;
+    }
+
+    .line-1 { transform: rotate(220deg); }
+    .line-2 { transform: rotate(318deg); }
+    .line-3 { transform: rotate(140deg); }
+    .line-4 { transform: rotate(42deg); }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 28px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      max-width: 760px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 420px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 240px;
+      padding: 24px;
+      border-radius: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.2);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(73, 242, 189, 0.1);
+      border: 1px solid rgba(73, 242, 189, 0.18);
+      margin-bottom: 22px;
+      font-size: 1.35rem;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .wide-panel {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 26px;
+      align-items: stretch;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .tbd-box {
+      min-height: 320px;
+      border-radius: 24px;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(73, 242, 189, 0.08), transparent 42%),
+        rgba(0,0,0,0.2);
+      border: 1px dashed rgba(136, 255, 216, 0.32);
+    }
+
+    .tbd-label {
+      display: inline-flex;
+      color: #08110f;
+      background: var(--accent-2);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .tbd-box h3 {
+      margin: 20px 0 14px;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+    }
+
+    .tbd-box p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .feature-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .feature-num {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: rgba(215, 180, 106, 0.12);
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .feature-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .feature-item span {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .use-case {
+      padding: 18px;
+      min-height: 150px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid var(--line);
+    }
+
+    .use-case span {
+      font-size: 1.55rem;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .use-case strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .use-case p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.5;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .roadmap-step {
+      background: rgba(8,17,15,0.9);
+      padding: 24px;
+      min-height: 230px;
+    }
+
+    .roadmap-step small {
+      color: var(--accent-2);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .roadmap-step h3 {
+      margin: 18px 0 10px;
+      letter-spacing: -0.035em;
+    }
+
+    .roadmap-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .cta-panel {
+      text-align: center;
+      padding: 60px 26px;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(73, 242, 189, 0.2), transparent 38%),
+        linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .cta-panel h2 {
+      margin: 0 auto 18px;
+      max-width: 760px;
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+    }
+
+    .cta-panel p {
+      margin: 0 auto 28px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+
+    footer {
+      padding: 46px 0;
+      color: var(--muted-2);
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 26px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-2);
+    }
+
+    @media (max-width: 920px) {
+      nav ul {
+        display: none;
+      }
+
+      .hero-grid,
+      .wide-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .cards,
+      .use-cases,
+      .roadmap {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 16px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      .hero {
+        padding-top: 58px;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 18vw, 4.4rem);
+      }
+
+      .cards,
+      .use-cases,
+      .roadmap {
+        grid-template-columns: 1fr;
+      }
+
+      .device-map {
+        min-height: 410px;
+      }
+
+      .node {
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+      }
+
+      .node-main {
+        width: 96px;
+        height: 96px;
+      }
+
+      .brand-name span {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="page-shell">
+    <header>
+      <div class="container nav">
+        <a class="brand" href="#top" aria-label="Digital Heritage home">
+          <div class="brand-mark">
+            <!-- Replace src with your transparent logo file, e.g. assets/logo.png. Fallback letters stay visible if image is missing. -->
+            <img src="assets/logo.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+            <span class="brand-fallback" style="display:none">DH</span>
+          </div>
+          <div class="brand-name">
+            <strong>Digital Heritage</strong>
+            <span>Insights into origin</span>
+          </div>
+        </a>
 
-<nav>
-    <a href="/">Home</a>
-    <a href="/about.html">About</a>
-    <a href="/product.html">Product</a>
-    <a href="/contact.html">Contact</a>
-</nav>
+        <nav aria-label="Main navigation">
+          <ul>
+            <li><a href="#platform">Platform</a></li>
+            <li><a href="#why">Why now</a></li>
+            <li><a href="#use-cases">Use cases</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+          </ul>
+        </nav>
 
-<div class="container">
-    <h1>RF Digital Identity Infrastructure</h1>
+        <a class="nav-cta" href="mailto:contact@digital-heritage.com">Contact</a>
+      </div>
+    </header>
 
-    <p>
-        A new layer of identity based on RF digital fingerprints for humans, devices,
-        and autonomous systems.
-    </p>
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Device origin intelligence</div>
+            <h1>Insights into <span class="gradient-text">origin.</span></h1>
+            <p class="hero-copy">
+              Digital Heritage helps organizations understand where their devices come from, what they are made of, and how their hardware, firmware, components, suppliers, and signals connect into one trustable heritage map.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#platform">Explore the concept</a>
+              <a class="button button-secondary" href="#company">Company description TBD</a>
+            </div>
+          </div>
 
-    <a class="button" href="/product.html">Explore Product</a>
-</div>
+          <div class="hero-card" aria-label="Device heritage map illustration">
+            <div class="device-map">
+              <div class="signal-line line-1"></div>
+              <div class="signal-line line-2"></div>
+              <div class="signal-line line-3"></div>
+              <div class="signal-line line-4"></div>
+              <div class="node node-main">◎</div>
+              <div class="node node-1">▣</div>
+              <div class="node node-2">⌁</div>
+              <div class="node node-3">⌬</div>
+              <div class="node node-4">◈</div>
+              <div class="map-label">
+                <strong>Heritage Map</strong>
+                Component origin, supplier chain, hardware identity, firmware lineage, and observed device behavior.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <section id="company">
+        <div class="container wide-panel">
+          <div class="tbd-box">
+            <span class="tbd-label">Text TBD</span>
+            <h3>Company description placeholder</h3>
+            <p>
+              Replace this section with the final company description. Suggested angle: Digital Heritage provides organizations with a technical way to understand the origin, integrity, and operational trust of devices across complex supply chains.
+            </p>
+          </div>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-num">01</div>
+              <div>
+                <strong>Device heritage profile</strong>
+                <span>A structured profile of device identity, hardware components, firmware, manufacturing origin, and supplier context.</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-num">02</div>
+              <div>
+                <strong>Origin and component insights</strong>
+                <span>Visibility into what is inside the device, where critical parts may come from, and which relationships require review.</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-num">03</div>
+              <div>
+                <strong>Trust map for decision makers</strong>
+                <span>A clear, visual representation designed for security teams, procurement, compliance, and executive stakeholders.</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-num">04</div>
+              <div>
+                <strong>GitHub Pages ready</strong>
+                <span>This front page is static, fast, and deployable as-is on GitHub Pages with a custom domain and HTTPS.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="platform">
+        <div class="container">
+          <div class="section-head">
+            <h2>From device evidence to a readable heritage map.</h2>
+            <p>Start with a simple website today. Later, the same structure can grow into a customer portal, report viewer, demo request flow, or private beta access page.</p>
+          </div>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card-icon">🧩</div>
+              <h3>Component intelligence</h3>
+              <p>Describe how the company identifies hardware modules, chips, firmware indicators, supplier metadata, and other technical evidence.</p>
+            </article>
+            <article class="card">
+              <div class="card-icon">🛰️</div>
+              <h3>Signal and behavior layer</h3>
+              <p>Reserve this area for future RF, wireless, or passive device-fingerprinting capabilities when the MVP is ready to disclose.</p>
+            </article>
+            <article class="card">
+              <div class="card-icon">🛡️</div>
+              <h3>Supply-chain risk context</h3>
+              <p>Connect device origin to procurement, compliance, critical infrastructure, defense, manufacturing, and product security workflows.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="why">
+        <div class="container">
+          <div class="section-head">
+            <h2>Why device heritage matters.</h2>
+            <p>Organizations increasingly need to explain not only what devices they use, but where those devices come from and why they should be trusted.</p>
+          </div>
+
+          <div class="cards">
+            <article class="card">
+              <div class="card-icon">01</div>
+              <h3>Complex supply chains</h3>
+              <p>Hardware products are assembled from many suppliers, regions, chips, modules, firmware versions, and hidden dependencies.</p>
+            </article>
+            <article class="card">
+              <div class="card-icon">02</div>
+              <h3>Procurement pressure</h3>
+              <p>Security, compliance, and procurement teams need practical answers before devices are deployed into sensitive environments.</p>
+            </article>
+            <article class="card">
+              <div class="card-icon">03</div>
+              <h3>Trust must be explainable</h3>
+              <p>A clear heritage map helps translate technical findings into business, regulatory, and operational decisions.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="use-cases">
+        <div class="container">
+          <div class="section-head">
+            <h2>Possible first use cases.</h2>
+            <p>These sections can stay high-level until the product positioning, customer segment, and messaging are finalized.</p>
+          </div>
+
+          <div class="use-cases">
+            <div class="use-case">
+              <span>🏭</span>
+              <strong>Manufacturing</strong>
+              <p>Map devices, controllers, gateways, and industrial equipment before deployment.</p>
+            </div>
+            <div class="use-case">
+              <span>⚡</span>
+              <strong>Critical infrastructure</strong>
+              <p>Support supply-chain review for power, energy, telecom, and operational environments.</p>
+            </div>
+            <div class="use-case">
+              <span>🚗</span>
+              <strong>Automotive</strong>
+              <p>Analyze electronic components, connectivity modules, and supplier-related exposure.</p>
+            </div>
+            <div class="use-case">
+              <span>🛡️</span>
+              <strong>Defense and secure facilities</strong>
+              <p>Provide technical origin context for devices entering controlled environments.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap">
+        <div class="container">
+          <div class="section-head">
+            <h2>Website sections ready for growth.</h2>
+            <p>Maximum practical GitHub Pages structure without a backend: static content, contact links, visual product story, and future expansion points.</p>
+          </div>
+
+          <div class="roadmap">
+            <div class="roadmap-step">
+              <small>Now</small>
+              <h3>Static front page</h3>
+              <p>Company story, slogan, product concept, use cases, and contact path.</p>
+            </div>
+            <div class="roadmap-step">
+              <small>Next</small>
+              <h3>Report sample</h3>
+              <p>Add a static demo report page showing what a device heritage map may look like.</p>
+            </div>
+            <div class="roadmap-step">
+              <small>Later</small>
+              <h3>Private beta</h3>
+              <p>Add a request-access form using a static form provider or simple email workflow.</p>
+            </div>
+            <div class="roadmap-step">
+              <small>Future</small>
+              <h3>Portal</h3>
+              <p>Move customer dashboards and authenticated workflows to a real app backend when needed.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="cta-panel">
+            <h2>Know the origin before you trust the device.</h2>
+            <p>
+              Digital Heritage is preparing a new way to understand device origin, component lineage, and technical trust across the physical digital world.
+            </p>
+            <a class="button button-primary" href="mailto:contact@digital-heritage.com?subject=Digital%20Heritage%20intro">Start a conversation</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div>© <span id="year"></span> Digital Heritage. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="mailto:contact@digital-heritage.com">Contact</a>
+          <a href="#platform">Platform</a>
+          <a href="#use-cases">Use cases</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
